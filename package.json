@@ -3,17 +3,28 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/AlanChumsawang/cs_465.git"
   },
-  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
   "dependencies": {
-    "cookie-parser": "^1.4.7",
-    "express-handlebars": "^8.0.1",
-    "morgan": "^1.10.0"
+    "cookie-parser": "^1.4.4",
+    "debug": "^4.3.4",
+    "express": "^4.18.2",
+    "hbs": "^4.2.0",
+    "http-errors": "^2.0.0",
+    "mongoose": "^8.13.2",
+    "morgan": "^1.10.0",
+    "supports-color": "^9.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }
