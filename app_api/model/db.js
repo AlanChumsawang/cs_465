@@ -22,24 +22,20 @@ const gracefulShutdown = (msg, callback) => {
     });
 };
 
-// For nodemon restarts
 process.once('SIGUSR2', () => {
     gracefulShutdown('nodemon restart', () => {
         process.kill(process.pid, 'SIGUSR2');
     });
 });
-// For app termination
 process.on('SIGINT', () => {
     gracefulShutdown('app termination', () => {
         process.exit(0);
     });
 });
-// For Heroku app termination
 process.on('SIGTERM', () => {
     gracefulShutdown('Heroku app shutdown', () => {
         process.exit(0);
     });
 });
 
-require('./models/trips');
-require('./models/user');
+require('./travlr.js');
