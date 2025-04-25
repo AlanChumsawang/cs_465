@@ -1,5 +1,4 @@
-const Trip = require('../../app_server/database/model/travlr'); // Correct path to the Trip model
-
+const Trip = require('../../app_server/database/model/travlr');
 // GET: /trips
 const getAllTrips = async (req, res) => {
     try {
