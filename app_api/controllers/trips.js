@@ -1,39 +1,37 @@
-const mongoose = require('mongoose');
-const Trip = mongoose.model('trips');
+const Trip = require('../../app_server/database/model/travlr'); // Correct path to the Trip model
 
-const tripsList = async (req, res) => {
+// GET: /trips
+const getAllTrips = async (req, res) => {
     try {
-        const trips = await Trip.find().exec();
-
-        if (!Array.isArray(trips)) {
-            return res.status(500).json({ message: 'data is not an array' });
+        console.log('Fetching trips from the database...');
+        const trips = await Trip.find({});
+        console.log('Trips fetched:', trips);
+        if (!trips || trips.length === 0) {
+            console.log('No trips found.');
+            return res.status(404).json({ message: "Trips not found" });
         }
-
-        if (trips.length === 0) {
-            return res.status(404).json({ message: 'No trips found in the database' });
-        }
-
-        res.status(200).json(trips);
+        console.log('Returning trips to the client.');
+        return res.status(200).json(trips);
     } catch (err) {
         console.error('Error fetching trips:', err);
-        res.status(500).json({ message: 'Error fetching trips', error: err.message });
+        return res.status(500).json({ error: err.message });
     }
 };
 
-const tripsFindCode = async (req, res) => {
+const getTripByCode = async (req, res) => {
     try {
-        const trip = await Trip.findOne({ code: req.params.code }).exec();
+        const trip = await Trip.findOne({ code: req.params.tripCode });
         if (!trip) {
-            return res.status(404).json({ message: 'Trip not found' });
+            return res.status(404).json({ message: "That trip was not found" });
         }
-        res.status(200).json(trip);
+        return res.status(200).json(trip);
     } catch (err) {
         console.error('Error fetching trip:', err);
-        res.status(500).json({ message: 'Error fetching trip', error: err.message });
+        return res.status(500).json({ error: err.message });
     }
 };
 
 module.exports = {
-    tripsList,
-    tripsFindCode,
+    getAllTrips,
+    getTripByCode
 };
