@@ -31,7 +31,7 @@ const getTripByCode = async (req, res) => {
 };
 
 const addTrip = async (req, res) => {
-    const newtrip = new Trip({
+    const newTrip = new Trip({
         code: req.body.code,
         name: req.body.name,
         length: req.body.length,
@@ -42,7 +42,7 @@ const addTrip = async (req, res) => {
         description: req.body.description,
     });
 
-    const q = await newtrip.save();
+    const q = await newTrip.save();
 
     if (!q) {
         //Database returned no data
@@ -51,8 +51,43 @@ const addTrip = async (req, res) => {
         return res.status(201).json(q);
     }
 };
+
+const updateTrip = async (req, res) => {
+    console.log(req.params);
+    console.log(req.body);
+
+    try {
+        const q = await Trip.findOneAndUpdate(
+            {code: req.params.tripCode},
+            {
+                code: req.body.code,
+                name: req.body.name,
+                length: req.body.length,
+                start: req.body.start,
+                resort: req.body.resort,
+                perPerson: req.body.perPerson,
+                image: req.body.image,
+                description: req.body.description,
+            },
+            {new: true} // Return the updated document
+        ).exec();
+
+        if (!q) {
+            // Database returned no data
+            return res.status(404).json({message: "Trip not found"});
+        } else {
+            // Return resulting updated trip
+            return res.status(200).json(q);
+        }
+    } catch (error) {
+        console.error("Error updating trip:", error);
+        return res.status(500).json({error: "Internal server error"});
+    }
+}
+
 module.exports = {
     getAllTrips,
     getTripByCode,
-    addTrip
+    addTrip,
+    updateTrip
 };

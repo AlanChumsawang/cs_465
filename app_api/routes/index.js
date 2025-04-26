@@ -12,6 +12,7 @@ router
 
 router
     .route('/trip/:tripCode')
-    .get(tripsController.getTripByCode);
+    .get(tripsController.getTripByCode)
+    .put(tripsController.updateTrip) //Put Method Updates a Trip;
 
 module.exports = router;
